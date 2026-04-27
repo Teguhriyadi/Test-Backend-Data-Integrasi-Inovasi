@@ -8,12 +8,13 @@
 
 Project backend ini dibuat menggunakan:
 
-- NestJS
+- NestJS (Version : 11.1.19)
 - PostgreSQL
 - TypeORM
 - JWT Authentication
 - bcrypt untuk enkripsi password
-
+- Swagger (Version : 11.4.1)
+- Node (Version : 20.19.4)
 ---
 
 # 🧠 DESKRIPSI SISTEM
