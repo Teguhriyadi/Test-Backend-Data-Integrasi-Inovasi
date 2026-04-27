@@ -72,17 +72,21 @@ Sistem ini digunakan untuk mengatur:
 
 ```json
 {
-  "userId": 1,
-  "roles": [
-    {
-      "role_id": 1,
-      "role_name": "admin"
-    },
-    {
-      "role_id": 2,
-      "role_name": "staff"
-    }
-  ]
+  "statusCode": 200,
+  "message": "Login berhasil",
+  "data": {
+    "userId": 1,
+    "roles": [
+      {
+        "role_id": 1,
+        "role_name": "admin"
+      },
+      {
+        "role_id": 2,
+        "role_name": "staff"
+      }
+    ]
+  }
 }
 ```
 
@@ -101,7 +105,11 @@ Sistem ini digunakan untuk mengatur:
 
 ```json
 {
-  "access_token": "jwt_token_here"
+  "statusCode": 200,
+  "message": "Login role berhasil dipilih",
+  "data": {
+    "access_token": "jwt_token_here"
+  }
 }
 ```
 
