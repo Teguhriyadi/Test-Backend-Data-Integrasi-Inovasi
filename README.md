@@ -90,23 +90,33 @@ Sistem ini digunakan untuk mengatur:
 
 ### Request
 
+```json
 {
   "userId": 1,
   "roleId": 1
 }
+```
 
 ### RESPONSE :
 
+```json
 {
   "access_token": "jwt_token_here"
 }
+```
 
-### END POINT : /menu (GET):
+## 📌 2. Menu
 
+- ENDPOINT : /menu (GET):
+
+### HEADERS :
+```json
 HEADERS : Authorization: Bearer <token>
+```
 
-### OUTPUT :
+### RESPONSE :
 
+```json
 [
   {
     "id": 1,
