@@ -1,4 +1,4 @@
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, ManyToMany, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { UserRole } from '../user-roles/user-roles.entity';
 import { Menu } from 'src/menus/menu.entity';
 
@@ -10,7 +10,7 @@ export class Role {
   @Column()
   name: string;
 
-  @OneToMany(() => Menu, (menu) => menu.role)
+  @ManyToMany(() => Menu, (menu) => menu.roles)
   menus: Menu[];
 
   @OneToMany(() => UserRole, (ur) => ur.role)

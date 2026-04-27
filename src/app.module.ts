@@ -8,6 +8,7 @@ import { UserRolesModule } from './user-roles/user-roles.module';
 import { MenuModule } from './menus/menu.module';
 
 import { AuthModule } from './auth/auth.module';
+import * as entities from './entities';
 
 @Module({
   imports: [
@@ -25,7 +26,7 @@ import { AuthModule } from './auth/auth.module';
         username: config.get<string>('DB_USERNAME'),
         password: config.get<string>('DB_PASSWORD'),
         database: config.get<string>('DB_NAME'),
-        autoLoadEntities: true,
+        entities: Object.values(entities),
         synchronize: true,
       }),
     }),

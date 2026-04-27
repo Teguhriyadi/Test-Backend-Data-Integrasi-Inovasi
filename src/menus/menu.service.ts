@@ -10,13 +10,51 @@ export class MenuService {
         private readonly menuRepo: Repository<Menu>,
     ) { }
 
-    async getMenuByUser(userId: number): Promise<Menu[]> {
-        return this.menuRepo
-            .createQueryBuilder('menu')
-            .innerJoin('menu.role', 'role')
-            .innerJoin('role.userRoles', 'userRole')
-            .innerJoin('userRole.user', 'user')
-            .where('user.id = :userId', { userId })
-            .getMany();
+    async getMenuByRole(roleId: number): Promise<any> {
+        const menus = await this.menuRepo.find({
+            where: {
+                roles: {
+                    id: roleId,
+                },
+            },
+            relations: ['parent', 'children'],
+        });
+
+        const map = new Map<number, any>();
+
+        menus.forEach((menu) => {
+            map.set(menu.id, { ...menu, children: [] });
+        });
+
+        const tree: any[] = [];
+
+        menus.forEach((menu) => {
+            const node = map.get(menu.id);
+
+            if (menu.parent) {
+                const parent = map.get(menu.parent.id);
+                if (parent) {
+                    parent.children.push(node);
+                }
+            } else {
+                tree.push(node);
+            }
+        });
+
+        return tree;
+    }
+
+    private buildTree(parents: Menu[], all: Menu[]) {
+        return parents.map((parent) => {
+            const children = all.filter(
+                (m) => m.parent?.id === parent.id,
+            );
+
+            return {
+                id: parent.id,
+                name: parent.name,
+                children: this.buildTree(children, all),
+            };
+        });
     }
 }

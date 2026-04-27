@@ -30,11 +30,15 @@ export class AuthService {
         }
 
         return {
-            userId: user.id,
-            roles: (user.userRoles || []).map((ur) => ({
-                role_id: ur.role.id,
-                role_name: ur.role.name,
-            })),
+            statusCode: 200,
+            message: 'Login berhasil',
+            data: {
+                userId: user.id,
+                roles: (user.userRoles || []).map((ur) => ({
+                    role_id: ur.role.id,
+                    role_name: ur.role.name,
+                })),
+            },
         };
     }
 
@@ -57,12 +61,16 @@ export class AuthService {
         }
 
         const payload = {
-            sub: user.id,
+            userId: user.id,
             roleId: body.roleId,
         };
 
         return {
-            access_token: this.jwtService.sign(payload),
+            statusCode: 200,
+            message: 'Login role berhasil dipilih',
+            data: {
+                access_token: this.jwtService.sign(payload),
+            },
         };
     }
 }
