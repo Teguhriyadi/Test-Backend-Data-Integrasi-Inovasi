@@ -168,6 +168,4 @@ ERD ini terdiri dari beberapa tabel, diantaranya:
 - menus : id, name, path, parent_id
 - menu_roles : menu_id, role_id (pivot table)
 
-<p align="center">
-  <img src="assets/img/ERD-Test-Data-Integrasi-Inovasi.drawio.png" width="300" alt="ERD Sistem" />
-</p>
+<img src="assets/img/ERD-Test-Data-Integrasi-Inovasi.drawio.png" style="width: 100%" alt="ERD Sistem" />
