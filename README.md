@@ -158,3 +158,8 @@ HEADERS : Authorization: Bearer <token>
   ]
 }
 ```
+# ERD
+
+<p align="center">
+  <img src="assets/img/ERD-Test-Data-Integrasi-Inovasi.drawio.png" width="300" alt="ERD Sistem" />
+</p>
