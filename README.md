@@ -125,32 +125,36 @@ HEADERS : Authorization: Bearer <token>
 ### RESPONSE :
 
 ```json
-[
-  {
-    "id": 1,
-    "name": "Menu 1",
-    "path": "/menu-1",
-    "children": [
-      {
-        "id": 2,
-        "name": "Menu 1.1",
-        "path": "/menu-1-1",
-        "children": []
-      },
-      {
-        "id": 3,
-        "name": "Menu 1.2",
-        "path": "/menu-1-2",
-        "children": [
-          {
-            "id": 4,
-            "name": "Menu 1.2.1",
-            "path": "/menu-1-2-1",
-            "children": []
-          }
-        ]
-      }
-    ]
-  }
-]
+{
+  "statusCode": 200,
+  "message": "Menu berhasil diambil",
+  "data": [
+    {
+      "id": 1,
+      "name": "Menu 1",
+      "path": "/menu-1",
+      "children": [
+        {
+          "id": 2,
+          "name": "Menu 1.1",
+          "path": "/menu-1-1",
+          "children": []
+        },
+        {
+          "id": 3,
+          "name": "Menu 1.2",
+          "path": "/menu-1-2",
+          "children": [
+            {
+              "id": 4,
+              "name": "Menu 1.2.1",
+              "path": "/menu-1-2-1",
+              "children": []
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
 ```
