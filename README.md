@@ -66,8 +66,11 @@ Sistem ini digunakan untuk mengatur:
   "username": "admin",
   "password": "123456"
 }
+```
 
-- RESPONSE:
+### RESPONSE
+
+```json
 {
   "userId": 1,
   "roles": [
@@ -81,6 +84,7 @@ Sistem ini digunakan untuk mengatur:
     }
   ]
 }
+```
 
 - ENDPOINT : /auth/select-role (POST):
 
