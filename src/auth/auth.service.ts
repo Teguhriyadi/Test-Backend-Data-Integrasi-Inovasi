@@ -14,27 +14,55 @@ export class AuthService {
         private jwtService: JwtService,
     ) { }
 
-    async login(dto: LoginDto): Promise<{ userId: number; token: string }> {
+    async login(dto: LoginDto): Promise<any> {
         const user = await this.userRepo.findOne({
             where: { username: dto.username },
+            relations: ['userRoles', 'userRoles.role'],
         });
 
-        if (!user) throw new UnauthorizedException();
+        if (!user) {
+            throw new UnauthorizedException('User tidak ditemukan');
+        }
 
         const valid = await bcrypt.compare(dto.password, user.password);
-        if (!valid) throw new UnauthorizedException();
+        if (!valid) {
+            throw new UnauthorizedException('Password salah');
+        }
 
         return {
             userId: user.id,
-            token: this.jwtService.sign({ userId: user.id }),
+            roles: (user.userRoles || []).map((ur) => ({
+                role_id: ur.role.id,
+                role_name: ur.role.name,
+            })),
         };
     }
 
-    async selectRole(body: { userId: number; roleId: number }): Promise<{ token: string }> {
+    async selectRole(body: { userId: number; roleId: number }) {
+        const user = await this.userRepo.findOne({
+            where: { id: body.userId },
+            relations: ['userRoles', 'userRoles.role'],
+        });
+
+        if (!user) {
+            throw new UnauthorizedException('User tidak ditemukan');
+        }
+
+        const hasRole = (user.userRoles || []).find(
+            (ur) => ur.role.id === body.roleId,
+        );
+
+        if (!hasRole) {
+            throw new UnauthorizedException('Role tidak valid');
+        }
+
+        const payload = {
+            sub: user.id,
+            roleId: body.roleId,
+        };
+
         return {
-            token: this.jwtService.sign({
-                userId: body.userId,
-            }),
+            access_token: this.jwtService.sign(payload),
         };
     }
 }

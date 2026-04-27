@@ -7,10 +7,6 @@ import { RolesModule } from './roles/role.module';
 import { UserRolesModule } from './user-roles/user-roles.module';
 import { MenuModule } from './menus/menu.module';
 
-import { User } from './users/users.entity';
-import { Role } from './roles/role.entity';
-import { UserRole } from './user-roles/user-roles.entity';
-import { Menu } from './menus/menu.entity';
 import { AuthModule } from './auth/auth.module';
 
 @Module({
@@ -30,7 +26,6 @@ import { AuthModule } from './auth/auth.module';
         password: config.get<string>('DB_PASSWORD'),
         database: config.get<string>('DB_NAME'),
         autoLoadEntities: true,
-        entities: [User, Role, UserRole, Menu],
         synchronize: true,
       }),
     }),

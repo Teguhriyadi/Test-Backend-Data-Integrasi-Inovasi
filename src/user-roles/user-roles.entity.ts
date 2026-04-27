@@ -7,7 +7,7 @@ export class UserRole {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToOne(() => User, (user) => user.roles)
+  @ManyToOne(() => User, (user) => user.userRoles)
   @JoinColumn({ name: 'user_id' })
   user: User;
 
