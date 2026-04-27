@@ -2,15 +2,16 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Menu } from './menu.entity';
 import { Repository } from 'typeorm';
+import { MenuItemResponseDto, MenuResponseDto } from './dto/menu.response.dto';
 
 @Injectable()
 export class MenuService {
     constructor(
         @InjectRepository(Menu)
         private readonly menuRepo: Repository<Menu>,
-    ) { }
+    ) {}
 
-    async getMenuByRole(roleId: number): Promise<any> {
+    async getMenuByRole(roleId: number): Promise<MenuResponseDto> {
         const menus = await this.menuRepo.find({
             where: {
                 roles: {
@@ -20,16 +21,23 @@ export class MenuService {
             relations: ['parent', 'children'],
         });
 
-        const map = new Map<number, any>();
+        const map = new Map<number, MenuItemResponseDto>();
 
         menus.forEach((menu) => {
-            map.set(menu.id, { ...menu, children: [] });
+            map.set(menu.id, {
+                id: menu.id,
+                name: menu.name,
+                path: menu.path,
+                children: [],
+            });
         });
 
-        const tree: any[] = [];
+        const tree: MenuItemResponseDto[] = [];
 
         menus.forEach((menu) => {
             const node = map.get(menu.id);
+
+            if (!node) return;
 
             if (menu.parent) {
                 const parent = map.get(menu.parent.id);
@@ -41,20 +49,10 @@ export class MenuService {
             }
         });
 
-        return tree;
-    }
-
-    private buildTree(parents: Menu[], all: Menu[]) {
-        return parents.map((parent) => {
-            const children = all.filter(
-                (m) => m.parent?.id === parent.id,
-            );
-
-            return {
-                id: parent.id,
-                name: parent.name,
-                children: this.buildTree(children, all),
-            };
-        });
+        return {
+            statusCode: 200,
+            message: 'Menu berhasil diambil',
+            data: tree,
+        };
     }
 }
