@@ -160,6 +160,14 @@ HEADERS : Authorization: Bearer <token>
 ```
 # ERD
 
+ERD ini terdiri dari beberapa tabel, diantaranya:
+
+- users : id, username, password
+- roles : id, name
+- user_roles : id, user_id, role_id
+- menus : id, name, path, parent_id
+- menu_roles : menu_id, role_id (pivot table)
+
 <p align="center">
   <img src="assets/img/ERD-Test-Data-Integrasi-Inovasi.drawio.png" width="300" alt="ERD Sistem" />
 </p>
