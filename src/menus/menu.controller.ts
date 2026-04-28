@@ -1,4 +1,4 @@
-import { Controller, Get, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put, Req, UseGuards } from '@nestjs/common';
 import { Request } from 'express';
 import { AuthGuard } from '@nestjs/passport';
 import {
@@ -9,6 +9,8 @@ import {
 
 import { MenuService } from './menu.service';
 import { JwtPayload } from '../auth/types/jwt-payload.type';
+import { UpdateMenuDto } from './dto/update-menu.dto';
+import { CreateMenuDto } from './dto/create-menu.dto';
 
 interface AuthRequest extends Request {
     user: JwtPayload;
@@ -55,7 +57,40 @@ export class MenuController {
             ],
         },
     })
+
     getMenu(@Req() req: AuthRequest) {
+        if (!req.user?.roleId) {
+            throw new Error('Role tidak ditemukan di token');
+        }
+
         return this.menuService.getMenuByRole(req.user.roleId);
+    }
+
+    @Post()
+    create(@Body() dto: CreateMenuDto) {
+        return this.menuService.create(dto);
+    }
+
+    @Get('all')
+    findAll() {
+        return this.menuService.findAll();
+    }
+
+    @Get(':id')
+    findOne(@Param('id', ParseIntPipe) id: number) {
+        return this.menuService.findOne(id);
+    }
+
+    @Put(':id')
+    update(
+        @Param('id', ParseIntPipe) id: number,
+        @Body() dto: UpdateMenuDto,
+    ) {
+        return this.menuService.update(id, dto);
+    }
+
+    @Delete(':id')
+    remove(@Param('id', ParseIntPipe) id: number) {
+        return this.menuService.remove(id);
     }
 }

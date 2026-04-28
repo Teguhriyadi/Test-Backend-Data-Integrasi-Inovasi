@@ -1,4 +1,3 @@
-import { Role } from 'src/roles/role.entity';
 import {
     Column,
     Entity,
@@ -9,6 +8,7 @@ import {
     ManyToMany,
     JoinTable,
 } from 'typeorm';
+import { Role } from 'src/roles/role.entity';
 
 @Entity('menus')
 export class Menu {
@@ -23,21 +23,18 @@ export class Menu {
 
     @ManyToMany(() => Role, (role) => role.menus)
     @JoinTable({
-        name: 'menu_roles', 
-        joinColumn: {
-            name: 'menu_id',
-            referencedColumnName: 'id',
-        },
-        inverseJoinColumn: {
-            name: 'role_id',
-            referencedColumnName: 'id',
-        },
+        name: 'menu_roles',
+        joinColumn: { name: 'menu_id', referencedColumnName: 'id' },
+        inverseJoinColumn: { name: 'role_id', referencedColumnName: 'id' },
     })
     roles: Role[];
 
-    @ManyToOne(() => Menu, (menu) => menu.children, { nullable: true })
+    @ManyToOne(() => Menu, (menu) => menu.children, {
+        nullable: true,
+        onDelete: 'SET NULL',
+    })
     @JoinColumn({ name: 'parent_id' })
-    parent: Menu;
+    parent?: Menu | null;
 
     @OneToMany(() => Menu, (menu) => menu.parent)
     children: Menu[];
