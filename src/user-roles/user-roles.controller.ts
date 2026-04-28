@@ -1,7 +1,9 @@
-import { Body, Controller, HttpStatus, Post } from '@nestjs/common';
+import { Body, Controller, HttpStatus, Post, UseGuards } from '@nestjs/common';
 import { UserRolesService } from './user-roles.service';
 import { AssignRoleDto } from './dto/assign-role.dto';
+import { AuthGuard } from '@nestjs/passport';
 
+@UseGuards(AuthGuard('jwt'))
 @Controller('user-roles')
 export class UserRolesController {
     constructor(private readonly service: UserRolesService) { }
