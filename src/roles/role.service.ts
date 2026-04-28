@@ -10,12 +10,16 @@ import { Role } from './role.entity';
 import { CreateRoleDto } from './dto/create-role.dto';
 import { UpdateRoleDto } from './dto/update-role.dto';
 import { BaseResponse } from '../common/dto/base-response.dto';
+import { Menu } from 'src/entities';
 
 @Injectable()
 export class RoleService {
     constructor(
         @InjectRepository(Role)
         private readonly roleRepo: Repository<Role>,
+
+        @InjectRepository(Menu)
+        private readonly menuRepo: Repository<Menu>,
     ) { }
 
     async create(dto: CreateRoleDto): Promise<BaseResponse<Role>> {
@@ -107,6 +111,25 @@ export class RoleService {
             statusCode: 200,
             message: 'Role berhasil dihapus',
             data: null,
+        };
+    }
+
+    async assignMenus(roleId: number, menuIds: number[]) {
+        const role = await this.roleRepo.findOne({
+        where: { id: roleId },
+        relations: ['menus'],
+        });
+
+        if (!role) throw new NotFoundException('Role tidak ditemukan');
+
+        const menus = await this.menuRepo.findByIds(menuIds);
+
+        role.menus = menus;
+
+        await this.roleRepo.save(role);
+
+        return {
+        message: 'Menu berhasil di-assign ke role',
         };
     }
 }

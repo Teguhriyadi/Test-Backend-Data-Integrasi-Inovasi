@@ -46,4 +46,12 @@ export class RoleController {
     remove(@Param('id', ParseIntPipe) id: number) {
         return this.roleService.remove(id);
     }
+
+    @Post(':id/menus')
+    assignMenus(
+        @Param('id', ParseIntPipe) roleId: number,
+        @Body() dto: { menuIds: number[] },
+    ) {
+        return this.roleService.assignMenus(roleId, dto.menuIds);
+    }
 }
